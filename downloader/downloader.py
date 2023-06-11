@@ -1,4 +1,5 @@
 from pytube import YouTube, Playlist
+from pytube.cli import on_progress
 
 
 def baixar_yt_video(link):
@@ -7,19 +8,19 @@ def baixar_yt_video(link):
             break
         else:
             try:
-                yt = YouTube(link)
+                yt = YouTube(link,on_progress_callback=on_progress)
 
                 print(f'O título deste vídeo é: {yt.title}')
-            except:
-                print('Erro em alguma coisa')
+            except Exception as error:
+                print('ERRO: ', error)
                 continue
 
             try:
                 yt.streams.get_highest_resolution().download()
                 print('Download concluído com sucesso')
                 break
-            except:
-                print('Erro ao fazer download do arquivo')
+            except Exception as error:
+                print('ERRO: ', error)
 
 
 def baixar_yt_playlist(link):
